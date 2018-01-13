@@ -1,0 +1,482 @@
+<domain type='kvm' id='5'>    // type=xen, kvm, qemu, lxc, kqemu; id=guest_id
+    //General metadata
+    <name>yzhao_test_vm</name>
+    <uuid>4dea22b31d52d8f32516782e98ab3fa0</uuid>
+    <description>The virtual machine used to test the Cockpit-ovirt</description>
+    <title>Welcome to yzhao's test virtual machine</title>
+    <metadata>
+        <app1:foo xmlns:app1="http://app1.org/app1/">..</app1:foo>
+        <app2:bar xmlns:app2="http://app1.org/app2/">..</app2:bar>
+    </metadata>
+
+    //Operationg system booting
+    <os>
+        <type>hvm</type>    //full virtualization
+        // full virtualization daemon
+        <loader readonly='yes' secure='no' type='rom'>/usr/lib/xen/boot/hvmloader</loader>
+        <boot dev='hd'/>  // fd, hd, cdrom, network
+        <boot dev='cdrom'/>
+        <bootmenu enable='yes' timeout='3000'/>     //bootmenu
+        <smbios mode='sysinfo'/>
+        <bios useserial='yes' rebootTimeout='0'/>
+
+        // Kernel boot
+        <!-- <kernel>/root/f8-i386-vmlinuz</kernel>
+        <initrd>/root/f8-i386-initrd</initrd>
+        <cmdline>console=ttyS0 ks=http://example.com/f8-i386/os/</cmdline>
+        <dtb>/root/ppc.dtb</dtb>
+        <acpi>
+            <table type='slic'>/path/to/slic.dat</table>
+        </acpi> -->
+
+        // Container boot
+        <!-- <type arch='x86_64'>exe</type>
+        <init>/bin/systemd</init>
+        <initarg>--unit</initarg>
+        <initarg>emergency.service</initarg>
+        <initenv name='MYENV'>some value</initenv>
+        <initdir>/my/custom/cwd</initdir>
+        <inituser>tester</inituser>
+        <initgroup>1000</initgroup> -->
+
+        // Vcpu, vcpu 2 vcpu
+        <vcpu>2</vcpu>
+        <!-- <vcpu placement='static' cpuset="1-4,^3,6" current="1">2</vcpu>
+        <vcpus>
+            <vcpu id='0' enabled='yes' hotpluggable='no' order='1'/>
+            <vcpu id='1' enabled='no' hotpluggable='yes'/>
+        </vcpus> -->
+
+        // IO
+        <!-- <iothreadids>
+            <iothread id="2"/>
+            <iothread id="4"/>
+            <iothread id="6"/>
+            <iothread id="8"/>
+        </iothreadids> -->
+
+        // CPU tuning
+        <!-- <cputune>
+            <vcpupin vcpu="0" cpuset="1-4,^2"/>
+            <vcpupin vcpu="1" cpuset="0,1"/>
+            <vcpupin vcpu="2" cpuset="2,3"/>
+            <vcpupin vcpu="3" cpuset="0,4"/>
+            <emulatorpin cpuset="1-3"/>
+            <iothreadpin iothread="1" cpuset="5,6"/>
+            <iothreadpin iothread="2" cpuset="7,8"/>
+            <shares>2048</shares>
+            <period>1000000</period>
+            <quota>-1</quota>
+            <emulator_period>1000000</emulator_period>
+            <emulator_quota>-1</emulator_quota>
+            <iothread_period>1000000</iothread_period>
+            <iothread_quota>-1</iothread_quota>
+            <vcpusched vcpus='0-4,^3' scheduler='fifo' priority='1'/>
+            <iothreadsched iothreads='2' scheduler='batch'/>
+        </cputune> -->
+
+        // Memory
+        <memory>1048576</memory>
+        <currentMemory>1048576</currentMemory>
+        <!-- <maxMemory slots='16' unit='KiB'>1524288</maxMemory>
+        <memory unit='KiB'>524288</memory>
+        <currentMemory unit='KiB'>524288</currentMemory> -->
+
+        // Memory backing
+        <!-- <memoryBacking>
+            <hugepages>
+            <page size="1" unit="G" nodeset="0-3,5"/>
+            <page size="2" unit="M" nodeset="4"/>
+            </hugepages>
+            <nosharepages/>
+            <locked/>
+            <source type="file|anonymous"/>
+            <access mode="shared|private"/>
+            <allocation mode="immediate|ondemand"/>
+        </memoryBacking> -->
+
+        // Memory tuning
+        <!-- <memtune>
+            <hard_limit unit='G'>1</hard_limit>
+            <soft_limit unit='M'>128</soft_limit>
+            <swap_hard_limit unit='G'>2</swap_hard_limit>
+            <min_guarantee unit='bytes'>67108864</min_guarantee>
+        </memtune> -->
+
+        // NUMA Node Tuning 
+        <!-- <numatune>
+            <memory mode="strict" nodeset="1-4,^3"/>
+            <memnode cellid="0" mode="strict" nodeset="1"/>
+            <memnode cellid="2" mode="preferred" nodeset="2"/>
+        </numatune> -->
+
+        // Block I/O Tuning
+        <!-- <blkiotune>
+            <weight>800</weight>
+            <device>
+            <path>/dev/sda</path>
+            <weight>1000</weight>
+            </device>
+            <device>
+            <path>/dev/sdb</path>
+            <weight>500</weight>
+            <read_bytes_sec>10000</read_bytes_sec>
+            <write_bytes_sec>10000</write_bytes_sec>
+            <read_iops_sec>20000</read_iops_sec>
+            <write_iops_sec>20000</write_iops_sec>
+            </device>
+        </blkiotune> -->
+
+        // Resource partitioning
+        <!-- <resource>
+            <partition>/virtualmachines/production</partition>
+        </resource> -->
+
+        // CPU model and topology
+        <!-- <cpu mode='host-model'>
+            <model fallback='forbid'/>
+            <topology sockets='1' cores='2' threads='1'/>
+        </cpu> -->
+
+        // Events configuration
+        <!-- <on_poweroff>destroy</on_poweroff>
+        <on_reboot>restart</on_reboot>
+        <on_crash>restart</on_crash>
+        <on_lockfailure>poweroff</on_lockfailure> -->
+
+        // Power Management
+        <!-- <pm>
+            <suspend-to-disk enabled='no'/>
+            <suspend-to-mem enabled='yes'/>
+        </pm> -->
+
+        // Hypervisor features
+        <!-- <features>
+            <pae/>     // Physical address extension mode allows 32-bit guests to address more than 4 GB of memory.
+            <acpi/>    // ACPI is useful for power management, for example, with KVM guests it is required for graceful shutdown to work.
+            <apic/>    // APIC allows the use of programmable IRQ management. Since 0.10.2 (QEMU only) there is an optional attribute eoi with values on and off which toggles the availability of EOI (End of Interrupt) for the guest.
+            <hap/>     
+            <privnet/>
+            <hyperv>
+                <relaxed state='on'/>
+                <vapic state='on'/>
+                <spinlocks state='on' retries='4096'/>
+                <vpindex state='on'/>
+                <runtime state='on'/>
+                <synic state='on'/>
+                <reset state='on'/>
+                <vendor_id state='on' value='KVM Hv'/>
+            </hyperv>
+            <kvm>
+                <hidden state='on'/>
+            </kvm>
+            <pvspinlock state='on'/>
+            <gic version='2'/>
+            <ioapic driver='qemu'/>
+            <hpt resizing='required'/>
+        </features> -->
+        <features> 
+            <acpi/> 
+            <apic/> 
+            <pae/> 
+        </features> 
+
+        // Time keeping
+        <!-- <clock offset='localtime'>
+            <timer name='rtc' tickpolicy='catchup' track='guest'>
+                <catchup threshold='123' slew='120' limit='10000'/>
+            </timer>
+            <timer name='pit' tickpolicy='delay'/>
+        </clock> -->
+
+        // Performance monitoring events 
+        <!-- <perf>
+            <event name='cmt' enabled='yes'/>
+            <event name='mbmt' enabled='no'/>
+            <event name='mbml' enabled='yes'/>
+            <event name='cpu_cycles' enabled='no'/>
+            <event name='instructions' enabled='yes'/>
+            <event name='cache_references' enabled='no'/>
+            <event name='cache_misses' enabled='no'/>
+            <event name='branch_instructions' enabled='no'/>
+            <event name='branch_misses' enabled='no'/>
+            <event name='bus_cycles' enabled='no'/>
+            <event name='stalled_cycles_frontend' enabled='no'/>
+            <event name='stalled_cycles_backend' enabled='no'/>
+            <event name='ref_cpu_cycles' enabled='no'/>
+            <event name='cpu_clock' enabled='no'/>
+            <event name='task_clock' enabled='no'/>
+            <event name='page_faults' enabled='no'/>
+            <event name='context_switches' enabled='no'/>
+            <event name='cpu_migrations' enabled='no'/>
+            <event name='page_faults_min' enabled='no'/>
+            <event name='page_faults_maj' enabled='no'/>
+            <event name='alignment_faults' enabled='no'/>
+            <event name='emulation_faults' enabled='no'/>
+        </perf> -->
+
+        // Security label
+        <!-- <seclabel type='dynamic' model='selinux'/>
+
+        <seclabel type='dynamic' model='selinux'>
+            <baselabel>system_u:system_r:my_svirt_t:s0</baselabel>
+        </seclabel>
+
+        <seclabel type='static' model='selinux' relabel='no'>
+            <label>system_u:system_r:svirt_t:s0:c392,c662</label>
+        </seclabel>
+
+        <seclabel type='static' model='selinux' relabel='yes'>
+            <label>system_u:system_r:svirt_t:s0:c392,c662</label>
+        </seclabel>
+
+        <seclabel type='none'/> -->
+
+        // Key Wrap
+        <!-- <keywrap>
+            <cipher name='aes' state='off'/>
+        </keywrap> -->
+
+        // Devices
+
+            <!-- // Hard drives, floppy disks, CDROMs
+            // Filesystems
+            // Device Addresses
+            // Virtio-related options
+            // Controllers
+            // Device leases
+            // Host device assignment
+                    USB / PCI / SCSI devices
+                    Block / character devices
+            // Redirected devices
+            // Smartcard devices
+            // Network interfaces
+                Virtual network
+                Bridge to LAN
+                Userspace SLIRP stack
+                Generic ethernet connection
+                Direct attachment to physical interface
+                PCI Passthrough
+                Multicast tunnel
+                TCP tunnel
+                UDP unicast tunnel
+                Setting the NIC model
+                Setting NIC driver-specific options
+                Setting network backend-specific options
+                Overriding the target element
+                Specifying boot order
+                Interface ROM BIOS configuration
+                Setting up a network backend in a driver domain
+                Quality of service
+                Setting VLAN tag (on supported network types only)
+                Modifying virtual link state
+                MTU configuration
+                Coalesce settings
+                IP configuration
+                vhost-user interface
+                Traffic filtering with NWFilter
+            // Input devices
+            // Hub devices
+            // Graphical framebuffers
+            // Video devices
+            // Consoles, serial, parallel & channel devices
+                Guest interface
+                    Parallel port
+                    Serial port
+                    Console
+                    Relationship between serial ports and consoles
+                    Channel
+                Host interface
+                    Domain logfile
+                    Device logfile
+                    Virtual console
+                    Null device
+                    Pseudo TTY
+                    Host device proxy
+                    Named pipe
+                    TCP client/server
+                    UDP network console
+                    UNIX domain socket client/server
+                    Spice channel
+                    Nmdm device
+            // Sound devices
+            // Watchdog device
+            // Memory balloon device
+            // Random number generator device
+            // TPM device
+            // NVRAM device
+            // panic device
+            // Shared memory device
+            // Memory devices
+            // IOMMU devices -->
+</domain>
+
+
+
+
+
+
+<!-- <Virt-manager> -->
+
+<!-- <domain type='kvm' id='4'>
+  <name>centos7.0</name>
+  <uuid>c544c4bd-6dc7-43d8-b6c2-79b2dd627178</uuid>
+  <memory unit='KiB'>1048576</memory>
+  <currentMemory unit='KiB'>1048576</currentMemory>
+  <vcpu placement='static'>1</vcpu>
+  <resource>
+    <partition>/machine</partition>
+  </resource>
+  <os>
+    <type arch='x86_64' machine='pc-i440fx-2.7'>hvm</type>
+    <boot dev='hd'/>
+  </os>
+  <features>
+    <acpi/>
+    <apic/>
+    <vmport state='off'/>
+  </features>
+  <cpu mode='custom' match='exact'>
+    <model fallback='allow'>SandyBridge</model>
+  </cpu>
+  <clock offset='utc'>
+    <timer name='rtc' tickpolicy='catchup'/>
+    <timer name='pit' tickpolicy='delay'/>
+    <timer name='hpet' present='no'/>
+  </clock>
+  <on_poweroff>destroy</on_poweroff>
+  <on_reboot>restart</on_reboot>
+  <on_crash>destroy</on_crash>
+  <pm>
+    <suspend-to-mem enabled='no'/>
+    <suspend-to-disk enabled='no'/>
+  </pm>
+  <devices>
+    <emulator>/usr/bin/qemu-kvm</emulator>
+    <disk type='file' device='disk'>
+      <driver name='qemu' type='qcow2'/>
+      <source file='/var/lib/libvirt/images/centos7.0.qcow2'/>
+      <backingStore/>
+      <target dev='vda' bus='virtio'/>
+      <alias name='virtio-disk0'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x07' function='0x0'/>
+    </disk>
+    <disk type='file' device='cdrom'>
+      <driver name='qemu' type='raw'/>
+      <backingStore/>
+      <target dev='hda' bus='ide'/>
+      <readonly/>
+      <alias name='ide0-0-0'/>
+      <address type='drive' controller='0' bus='0' target='0' unit='0'/>
+    </disk>
+    <controller type='usb' index='0' model='ich9-ehci1'>
+      <alias name='usb'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x06' function='0x7'/>
+    </controller>
+    <controller type='usb' index='0' model='ich9-uhci1'>
+      <alias name='usb'/>
+      <master startport='0'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x06' function='0x0' multifunction='on'/>
+    </controller>
+    <controller type='usb' index='0' model='ich9-uhci2'>
+      <alias name='usb'/>
+      <master startport='2'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x06' function='0x1'/>
+    </controller>
+    <controller type='usb' index='0' model='ich9-uhci3'>
+      <alias name='usb'/>
+      <master startport='4'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x06' function='0x2'/>
+    </controller>
+    <controller type='pci' index='0' model='pci-root'>
+      <alias name='pci.0'/>
+    </controller>
+    <controller type='ide' index='0'>
+      <alias name='ide'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x01' function='0x1'/>
+    </controller>
+    <controller type='virtio-serial' index='0'>
+      <alias name='virtio-serial0'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x05' function='0x0'/>
+    </controller>
+    <interface type='network'>
+      <mac address='52:54:00:b7:78:22'/>
+      <source network='default' bridge='virbr0'/>
+      <target dev='vnet0'/>
+      <model type='virtio'/>
+      <alias name='net0'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x03' function='0x0'/>
+    </interface>
+    <serial type='pty'>
+      <source path='/dev/pts/2'/>
+      <target port='0'/>
+      <alias name='serial0'/>
+    </serial>
+    <console type='pty' tty='/dev/pts/2'>
+      <source path='/dev/pts/2'/>
+      <target type='serial' port='0'/>
+      <alias name='serial0'/>
+    </console>
+    <channel type='unix'>
+      <source mode='bind' path='/var/lib/libvirt/qemu/channel/target/domain-4-centos7.0/org.qemu.guest_agent.0'/>
+      <target type='virtio' name='org.qemu.guest_agent.0' state='disconnected'/>
+      <alias name='channel0'/>
+      <address type='virtio-serial' controller='0' bus='0' port='1'/>
+    </channel>
+    <channel type='spicevmc'>
+      <target type='virtio' name='com.redhat.spice.0' state='disconnected'/>
+      <alias name='channel1'/>
+      <address type='virtio-serial' controller='0' bus='0' port='2'/>
+    </channel>
+    <input type='tablet' bus='usb'>
+      <alias name='input0'/>
+      <address type='usb' bus='0' port='1'/>
+    </input>
+    <input type='mouse' bus='ps2'>
+      <alias name='input1'/>
+    </input>
+    <input type='keyboard' bus='ps2'>
+      <alias name='input2'/>
+    </input>
+    <graphics type='spice' port='5900' autoport='yes' listen='127.0.0.1'>
+      <listen type='address' address='127.0.0.1'/>
+      <image compression='off'/>
+    </graphics>
+    <sound model='ich6'>
+      <alias name='sound0'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x04' function='0x0'/>
+    </sound>
+    <video>
+      <model type='qxl' ram='65536' vram='65536' vgamem='16384' heads='1' primary='yes'/>
+      <alias name='video0'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x02' function='0x0'/>
+    </video>
+    <redirdev bus='usb' type='spicevmc'>
+      <alias name='redir0'/>
+      <address type='usb' bus='0' port='2'/>
+    </redirdev>
+    <redirdev bus='usb' type='spicevmc'>
+      <alias name='redir1'/>
+      <address type='usb' bus='0' port='3'/>
+    </redirdev>
+    <memballoon model='virtio'>
+      <alias name='balloon0'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x08' function='0x0'/>
+    </memballoon>
+  </devices>
+  <seclabel type='dynamic' model='selinux' relabel='yes'>
+    <label>system_u:system_r:svirt_t:s0:c776,c854</label>
+    <imagelabel>system_u:object_r:svirt_image_t:s0:c776,c854</imagelabel>
+  </seclabel>
+  <seclabel type='dynamic' model='dac' relabel='yes'>
+    <label>+107:+107</label>
+    <imagelabel>+107:+107</imagelabel>
+  </seclabel>
+</domain> -->
+
+
+
+
+
+
+
